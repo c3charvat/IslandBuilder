@@ -5,9 +5,8 @@
 
 // Segment Config
 #define DIGIT_SIZE 18
-#define NUM_DIGITS 1
-#define SEGMENTS 1
-#define NUM_LEDS DIGIT_SIZE * NUM_DIGITS * SEGMENTS
+#define SEGMENTS 4
+#define NUM_LEDS DIGIT_SIZE * SEGMENTS
 
 // Output Config
 #define DATA_PIN 14
@@ -17,11 +16,14 @@ CRGB leds[NUM_LEDS];
 
 const bool* DIGIT_ARRAY[] = {digitZero, digitOne, digitTwo, digitThree, digitFour, digitFive, digitSix, digitSeven, digitEight, digitNine, digitTen, digitEleven, digitTwelve, digitThirteen, digitFourteen, digitFifteen, digitSixteen, digitSeventeen, digitEighteen, digitNineteen};
 
-int testArray[] = {2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12};
+int defaultLayout[] = {2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12};
+int defaultLayoutColors[] = {CRGB::DarkGoldenrod, CRGB::DarkGoldenrod, CRGB::DarkGoldenrod, CRGB::DarkGoldenrod, CRGB::GreenYellow, CRGB::GreenYellow, CRGB::GreenYellow, CRGB::GreenYellow, CRGB::Red, CRGB::Red, CRGB::Red, CRGB::Gray, CRGB::Gray, CRGB::Gray, CRGB::DarkGreen, CRGB::DarkGreen, CRGB::DarkGreen, CRGB::DarkGreen};
+
+
 
 // Wheat, Wool, Brick, Ore, Wood, Desert
 // Yellow/golden, Light Green, red, light blue/grey, brown/darkgreen, tan/beige
-CRGB COLOR_ARRAY[] = {CRGB::DarkGoldenrod, CRGB::GreenYellow, CRGB::Red, CRGB::Gray, CRGB::DarkGreen};
+// CRGB COLOR_ARRAY[] = {CRGB::DarkGoldenrod, CRGB::GreenYellow, CRGB::Red, CRGB::Gray, CRGB::DarkGreen};
 // CRGB TEST_COLOR_ARRAY[] = {CRGB::Brown, CRGB::DarkGreen};
 
 
@@ -48,12 +50,19 @@ void setup(){
     FastLED.setBrightness(10);  // Adjust this value to change overall brightness
 }
 
-int digitCount = 0;
 void loop(){
-  for (int i = 0; i < DIGIT_SIZE; i++){
-    leds[i] = DIGIT_ARRAY[digitCount % 20][i] ? CRGB::DarkGoldenrod : CRGB::Black;
+
+  fisherYatesShuffle(defaultLayout, 18);
+  fisherYatesShuffle(defaultLayoutColors, 18);
+
+  for (int segment = 0; segment < SEGMENTS; segment++) {
+
+    for (int i = 0; i < DIGIT_SIZE; i++){
+      leds[i + (segment*DIGIT_SIZE)] = DIGIT_ARRAY[defaultLayout[segment]][i] ? defaultLayoutColors[segment] : CRGB::Black;
+    }
+    FastLED.show();
   }
-  FastLED.show();
-  digitCount++;
-  delay(1000);
+
+  delay(5000);
+  
 }
