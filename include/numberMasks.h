@@ -1,3 +1,6 @@
+#ifndef NUMBERMASK_HPP
+#define NUMBERMASK_HPP
+
 #define DIGIT_SIZE 18
 #define PORT_SIZE 4
 
@@ -63,3 +66,5 @@ const bool digitNineteen[DIGIT_SIZE] = {1, 1, 1, 1, 1,
 
 const bool digitDash[DIGIT_SIZE] = {0, 0, 0, 0, 0,
                                     0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0};
+
+#endif
