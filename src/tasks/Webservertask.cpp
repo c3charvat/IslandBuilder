@@ -109,6 +109,10 @@ void webServerTask(void *pvParameters){
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send(LittleFS, "/index.html", "text/html");
   });
+
+  server.on("/boardview", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send(LittleFS, "/boardview.html", "text/html");
+  });
   
   server.serveStatic("/", LittleFS, "/");
 
